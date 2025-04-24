@@ -6,7 +6,7 @@ import Usuarios from "./Usuarios.js";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json())
 
@@ -24,10 +24,14 @@ connetDB();
 // CREATE
 app.post("/Usuario", async (req, res) => {
     try {
+        console.log('Dados recebidos:', req.body);
         const novoUser = await Usuarios.create(req.body);
-        res.json(novoUser);
+        //res.json(novoUser);
+        res.status(201).json(novoUser);
     } catch (error) {
+        console.error('Erro ao cadastar Usuario');
         res.send(error);
+        res.status(400).json({error: 'Erro ao cadastrar Usuario'});
     }
 });
 

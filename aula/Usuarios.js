@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const UsuariosCadastrados = new mongoose.Schema({
-    nome: Number,
-    email: Number,
-    senha: Number
+    nome: String,
+    email: String,
+    senha: String
 });
 
 export default mongoose.model("Usuario", UsuariosCadastrados);
