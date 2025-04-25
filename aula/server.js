@@ -1,12 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Usuarios from "./Usuarios.js";
+import Professor from "./Professor.js";
+import Instituicao from "./Instituicao.js";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4040;
 
 app.use(express.json())
 
@@ -21,45 +22,91 @@ const connetDB = async () => {
 
 connetDB();
 
-// CREATE
-app.post("/Usuario", async (req, res) => {
+//-----------------------
+// CREATE PROFESSOR
+app.post("/Professor", async (req, res) => {
     try {
         console.log('Dados recebidos:', req.body);
-        const novoUser = await Usuarios.create(req.body);
+        const novoProfessor = await Professor.create(req.body);
         //res.json(novoUser);
-        res.status(201).json(novoUser);
+        res.status(201).json(novoProfessor);
     } catch (error) {
-        console.error('Erro ao cadastar Usuario');
-        res.send(error);
-        res.status(400).json({error: 'Erro ao cadastrar Usuario'});
+        console.error('Erro ao cadastar Professor');
+        //res.send(error);
+        res.status(400).json({error: 'Erro ao cadastrar Professor', detalhes: error.message});
     }
 });
 
-// READ
-app.get("/Usuario", async (req, res) => {
+// READ PROFESSOR
+app.get("/Professor", async (req, res) => {
     try {
-        const User = await Usuarios.find();
-        res.json(User);
-    } catch (error) {
-        res.json({error: error});
-    }
-});
-
-// UPDATE
-app.put("/Usuario/:id", async (req, res) => {
-    try {
-        const novoUsuario = await Usuarios.findByIdAndUpdate(req.params.id, req.body, {new: true});
-        res.json(novoUsuario);
+        const Prof = await Professor.find();
+        res.json(Prof);
     } catch (error) {
         res.json({error: error});
     }
 });
 
-// DELETE
-app.delete("/Usuario/:id", async (req, res) => {
+// UPDATE PROFESSOR
+app.put("/Professor/:id", async (req, res) => {
     try {
-        const UserExcluido = await Usuarios.findByIdAndDelete(req.params.id, req.body, {new: true});
-        res.json(UserExcluido);
+        const novoProfessor = await Professor.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(novoProfessor);
+    } catch (error) {
+        res.json({error: error});
+    }
+});
+
+// DELETE PROFESSOR
+app.delete("/Professor/:id", async (req, res) => {
+    try {
+        const ProfExcluido = await Professor.findByIdAndDelete(req.params.id, req.body, {new: true});
+        res.json(ProfExcluido);
+    } catch (error) {
+        res.json({error: error});
+    }
+});
+
+//-----------------------
+// CREATE INSTITUIÇÃO
+app.post("/Instituicao", async (req, res) => {
+    try {
+        console.log('Dados recebidos:', req.body);
+        const novoInstituicao = await Instituicao.create(req.body);
+        //res.json(novoUser);
+        res.status(201).json(novoInstituicao);
+    } catch (error) {
+        console.error('Erro ao cadastar Instituicao');
+        //res.send(error);
+        res.status(400).json({error: 'Erro ao cadastrar Instituicao', detalhes: error.message});
+    }
+});
+
+// READ INSTITUIÇÃO
+app.get("/Instituicao", async (req, res) => {
+    try {
+        const Inst = await Instituicao.find();
+        res.json(Inst);
+    } catch (error) {
+        res.json({error: error});
+    }
+});
+
+// UPDATE INSTITUIÇÃO
+app.put("/Instituicao/:id", async (req, res) => {
+    try {
+        const novoInstituicao = await Instituicao.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(novoInstituicao);
+    } catch (error) {
+        res.json({error: error});
+    }
+});
+
+// DELETE INSTITUIÇÃO
+app.delete("/Instituicao/:id", async (req, res) => {
+    try {
+        const InstExcluido = await Instituicao.findByIdAndDelete(req.params.id, req.body, {new: true});
+        res.json(InstExcluido);
     } catch (error) {
         res.json({error: error});
     }
